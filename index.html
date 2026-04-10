@@ -3,8 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>JS Concept Mastery</title>
-    <link rel="stylesheet" href="style.css">
 </head>
+<style>
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #e88e08; display: flex;
+    color: rgb(255, 21, 0);
+    justify-content: center; 
+    padding-top: 50px; }
+.container { 
+    background: white;
+    padding: 2rem; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+    height: 500px;
+    width: 400px; 
+    text-align: center; }
+
+button { 
+display: block; 
+width: 100%; 
+margin: 10px 0; 
+padding: 10px; 
+border: 1px solid #ddd; 
+border-radius: 5px; 
+cursor: pointer; 
+transition: 0.3s; }
+button:hover { 
+background: #e0e0ff; 
+}
+#feedback { 
+font-weight: bold; 
+margin-top: 15px; 
+}
+</style>
 <body>
     <div class="container">
         <h1>JavaScript Quiz Master</h1>
@@ -18,6 +50,70 @@
             Score: <span id="score">0</span>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script>
+    const questions = [
+    {q: "Which keyword is used to declare a constant variable?",
+        options: ["var", "let", "const", "define"],
+        answer: "const"},
+    {q: "What does 'DOM' stand for?",
+    options: ["Document Object Model", "Data Object Management", "Digital Ordinance Mode"],
+    answer: "Document Object Model"},
+    {q: "Which one is used for equal to and type in javascript?",
+    options: ["!=", "==", "==="],
+    answer: "==="},
+    { q: "JS stands for?", options: ["JavaSource", "JavaScript", "JustScript"], answer: "JavaScript" },
+    { q: "Which symbol is used for comments?", options: ["//", "/*", "#"], answer: "//" },
+    { q: "What is the output of 2 + '2'?", options: ["4", "22", "Error"], answer: "22" },
+    { q: "Which method adds an element to the end of an array?", options: ["pop()", "push()", "shift()"], answer: "push()" },
+    { q: "How do you call a function?", options: ["call function()", "function()", "run.function"], answer: "function()" },
+    { q: "Which operator is used for equality check?", options: ["=", "==", "==="], answer: "===" },
+    { q: "What does 'typeof' do?", options: ["Checks data type", "Creates a variable", "Deletes a value"], answer: "Checks data type" },
+    { q: "Which event occurs when a user clicks an element?", options: ["onmouseover", "onclick", "onchange"], answer: "onclick" },
+    { q: "How to write an IF statement in JS?", options: ["if i = 5", "if (i == 5)", "if i == 5 then"], answer: "if (i == 5)" },
+    { q: "Which one is a primitive data type?", options: ["Object", "String", "Array"], answer: "String" }
+];
+
+let currentIdx = 0;
+let score = 0;
+
+function loadQuestion1() {
+    const qData = questions[currentIdx];
+    document.getElementById("question").innerText = qData.q;
+    const optionsDiv = document.getElementById("options");
+    optionsDiv.innerHTML = ""; // Clear old buttons
+
+    qData.options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.innerText = opt;
+        btn.onclick = () => checkAnswer(opt);
+        optionsDiv.appendChild(btn);
+    });
+}
+
+function checkAnswer(selected) {
+    const feedback = document.getElementById("feedback");
+    if (selected === questions[currentIdx].answer) {
+        score++;
+        feedback.innerText = "Correct! 🎉";
+        feedback.style.color = "green";
+    } else {
+        feedback.innerText = "Wrong! Try again. ❌";
+        feedback.style.color = "red";
+    }
+    
+    document.getElementById("score").innerText = score;
+    currentIdx++;
+
+    if (currentIdx < questions.length) {
+        setTimeout(loadQuestion1, 1000); // Move to next after 1 sec
+    } else {
+        document.getElementById("quiz-box").innerHTML = "<h2>Quiz Finished!</h2>";
+    }
+}
+
+// Start the quiz
+loadQuestion1();
+    
+    </script>
 </body>
 </html>
